@@ -11,23 +11,24 @@ class PostViewModel : ViewModel(), PostInteractionListener {
     // упрощённый вариант
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
 
-    val data by repository :: data
-val currentPost = MutableLiveData<Post?>(null)
+    val data by repository::data
+    val currentPost = MutableLiveData<Post?>(null)
 
-fun onSaveButtonClicked(content: String) {
-    if(content.isBlank()) return
+    fun onSaveButtonClicked(content: String) {
+        if (content.isBlank()) return
 
-    val post = currentPost.value?.copy(
-        content = content
-    ) ?: Post(
-        id = PostRepository.NEW_POST_ID,
-        author = "Me",
-        content = content,
-        published = "Today"
-    )
-    repository.save(post)
-    currentPost.value = null
-}
+        val post = currentPost.value?.copy(
+            content = content
+        ) ?: Post(
+            id = PostRepository.NEW_POST_ID,
+            author = "Me",
+            content = content,
+            published = "Today"
+        )
+        repository.save(post)
+        currentPost.value = null
+    }
+
     fun onCloseButtonClicked() {
 
     }

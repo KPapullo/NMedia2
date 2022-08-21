@@ -63,6 +63,8 @@ internal class PostsAdapter(
         init {
             binding.like.setOnClickListener { listener.onLikeClicked(post) }
             binding.share.setOnClickListener { listener.onShareClicked(post) }
+
+            binding.menu.setOnClickListener { popupMenu.show() }
         }
 
 
@@ -74,20 +76,21 @@ internal class PostsAdapter(
                 published.text = post.published
                 content.text = post.content
 
-                likeCount.text = resFormat(post.likes)
-                shareCount.text = resFormat(post.shares)
-                viewsCount.text = resFormat(post.views)
+                like.text = resFormat(post.likes)
+                like.isChecked = post.likedByMe
+                share.text = resFormat(post.shares)
+                views.text = resFormat(post.views)
 
-                like.setImageResource(getLikeIconResId(post.likedByMe))
-                menu.setOnClickListener { popupMenu.show() }
+                //like.setButtonDrawable(getLikeIconResId(post.likedByMe))
+
 
             }
         }
 
-        @DrawableRes
+       /* @DrawableRes
         private fun getLikeIconResId(liked: Boolean) =
             if (liked) R.drawable.ic_liked_24 else R.drawable.ic_like_24
-
+*/
 
     }
 

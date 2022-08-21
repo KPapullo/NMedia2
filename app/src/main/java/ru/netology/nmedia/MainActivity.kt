@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.closeEditButton.setOnClickListener {
             with(binding.contentTextEdit) {
-
                 viewModel.onCloseButtonClicked()
                 clearFocus()
                 hideKeyboard()
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     binding.groupForEdit.visibility = View.GONE
                     clearFocus()
-                    hideKeyboard()
+                   hideKeyboard()
 
                 }
             }
