@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -12,8 +14,11 @@ import ru.netology.nmedia.repository.PostRepository
 import kotlin.properties.Delegates
 
 class SharedPrefsPostRepository(
-    application: Application
+    private val application: Application
 ) : PostRepository {
+
+    private val gson = Gson()
+    private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
 
     private val prefs = application.getSharedPreferences(
         "repo", Context.MODE_PRIVATE
@@ -29,9 +34,10 @@ class SharedPrefsPostRepository(
             "Data value should not be null"
         }
         set(value) {
-            prefs.edit {
-                val serializedPosts = Json.encodeToString(value)
-                putString(POSTS_PREFS_KEY, serializedPosts)
+            application.openFileOutput(
+                FILE_NAME, Context.MODE_PRIVATE
+            ).bufferedWriter().use {
+                it.write(gson.toJson(value))
             }
             data.value = value
         }
@@ -39,21 +45,24 @@ class SharedPrefsPostRepository(
     override val data: MutableLiveData<List<Post>>
 
     init {
-        val serializedPosts = prefs.getString(POSTS_PREFS_KEY, null)
-        val posts: List<Post> = if (serializedPosts != null) {
-            Json.decodeFromString(serializedPosts)
+        val postsFile = application.filesDir.resolve(FILE_NAME)
+        val posts: List<Post> = if (postsFile.exists()) {
+            val inputStream = application.openFileInput(FILE_NAME)
+            val reader = inputStream.bufferedReader()
+            reader.use { gson.fromJson(it, type) }
         } else emptyList()
+
         data = MutableLiveData(posts)
     }
 
     override fun like(postId: Long) {
         posts = posts.map {
-            val likedOrNotCount =
+            val likedCount =
                 if (!it.likedByMe) it.likes + 1 else it.likes - 1
             if (it.id != postId) it
             else it.copy(
                 likedByMe = !it.likedByMe,
-                likes = likedOrNotCount
+                likes = likedCount
             )
         }
 
@@ -90,8 +99,8 @@ class SharedPrefsPostRepository(
     }
 
     private companion object {
-        const val POSTS_PREFS_KEY = "posts"
         const val NEXT_ID_PREFS_KEY = "nextId"
+        const val FILE_NAME = "posts.json"
     }
 
 

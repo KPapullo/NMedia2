@@ -44,9 +44,9 @@ class PostViewModel(
         navigateToPostContentScreenEvent.call()
     }
 
-    /*fun onCloseButtonClicked() {
+    fun onCloseButtonClicked() {
         currentPost.value = null
-    }*/
+    }
 
     // region PostInteractionListener
     override fun onLikeClicked(post: Post) {
@@ -56,6 +56,7 @@ class PostViewModel(
     override fun onShareClicked(post: Post) {
        // repository.share(post.id)
         sharePostContent.value = post.content
+        repository.share(post.id)
     }
 
     override fun onRemoveClicked(post: Post) {
