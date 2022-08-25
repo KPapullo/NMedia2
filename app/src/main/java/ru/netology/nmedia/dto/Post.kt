@@ -10,6 +10,4 @@ data class Post(
     var shares: Int = 1,
     var views: Int = 5,
     val video: String? = null
-
 )
-

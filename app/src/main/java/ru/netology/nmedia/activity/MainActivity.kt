@@ -4,13 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.adapter.PostsAdapter
-
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -24,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val adapter = PostsAdapter(viewModel)
-
         binding.postsRecyclerView.adapter = adapter
+
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
@@ -33,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             viewModel.onAddClicked()
         }
-
 
         viewModel.sharePostContent.observe(this) { postContent ->
             val intent = Intent().apply {
@@ -47,12 +43,6 @@ class MainActivity : AppCompatActivity() {
             )
             startActivity(shareIntent)
         }
-
-            /*val shareIntent =
-                Intent.createChooser(intent, getString(R.string.chooser_share_post))
-            startActivity(shareIntent)
-
-        }*/
 
         viewModel.playVideo.observe(this) { videoUrl ->
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
@@ -74,36 +64,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-/* binding.saveButton.setOnClickListener {
-           with(binding.contentTextEdit) {
-               val content = binding.contentTextEdit.text.toString()
-               viewModel.onSaveButtonClicked(content)
-
-           }
-       }
-
-     binding.closeEditButton.setOnClickListener {
-          with(binding.contentTextEdit) {
-              viewModel.onCloseButtonClicked()
-              clearFocus()
-              hideKeyboard()
-          }
-          binding.groupForEdit.visibility = View.GONE
-      }
-
-      viewModel.currentPost.observe(this) { currentPost ->
-      with(binding.contentTextEdit) {
-          val content = currentPost?.content
-          setText(content)
-          if (content != null) {
-              binding.groupForEdit.visibility = View.VISIBLE
-              requestFocus()
-              showKeyboard()
-          } else {
-              binding.groupForEdit.visibility = View.GONE
-              clearFocus()
-             hideKeyboard()
-
-          }
-      }
-  }*/
