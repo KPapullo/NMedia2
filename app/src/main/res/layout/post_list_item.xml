@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/common_spacing">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/PostFragmentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/common_spacing"
-        android:paddingTop="@dimen/common_spacing"
-        android:paddingRight="@dimen/common_spacing"
-        android:paddingBottom="36dp">
 
     <ImageView
         android:id="@+id/avatar"
@@ -26,7 +17,7 @@
         android:layout_height="@dimen/posts_avatar_size"
         android:layout_marginBottom="@dimen/common_spacing"
         android:src="@drawable/ic_netology_48dp"
-        android:contentDescription="@string/description_post_author_avatar"
+
          />
 
     <TextView
@@ -166,5 +157,5 @@
         tools:text="100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
 
