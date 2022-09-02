@@ -1,5 +1,7 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Context
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -15,8 +17,8 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.resFormat
 
 
-internal class PostsAdapter(
 
+internal class PostsAdapter(
     private val interactionListener: PostInteractionListener
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
 
@@ -28,15 +30,15 @@ internal class PostsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: PostListItemBinding,
         listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
+
 
         private val popupMenu by lazy {
             PopupMenu(itemView.context, binding.menu).apply {
@@ -49,9 +51,9 @@ internal class PostsAdapter(
                         }
                         R.id.edit -> {
                             listener.onEditClicked(post)
+
                             true
                         }
-
                         else -> false
                     }
                 }
@@ -59,24 +61,18 @@ internal class PostsAdapter(
         }
 
         init {
-            binding.like.setOnClickListener {
-                listener.onLikeClicked(post)
-            }
-            binding.share.setOnClickListener {
-                listener.onShareClicked(post)
-            }
-
+            binding.like.setOnClickListener { listener.onLikeClicked(post) }
+            binding.share.setOnClickListener { listener.onShareClicked(post) }
             binding.videoBanner.setOnClickListener {
                 listener.onPlayVideoClicked(post)
             }
             binding.playVideo.setOnClickListener {
                 listener.onPlayVideoClicked(post)
             }
-
             binding.menu.setOnClickListener { popupMenu.show() }
+            binding.root.setOnClickListener { listener.onPostClicked(post) }
 
         }
-
 
         fun bind(post: Post) {
             this.post = post
@@ -85,27 +81,25 @@ internal class PostsAdapter(
                 author.text = post.author
                 published.text = post.published
                 content.text = post.content
-
                 like.text = resFormat(post.likes)
-                like.isChecked = post.likedByMe
                 share.text = resFormat(post.shares)
                 views.text = resFormat(post.views)
+                like.isChecked = post.likedByMe
+                content.movementMethod = ScrollingMovementMethod()
                 videoGroup.isVisible = post.video != null
             }
         }
+
+
     }
 
-
-        private object DiffCallback : DiffUtil.ItemCallback<Post>() {
-            override fun areItemsTheSame(oldItem: Post, newItem: Post) =
-                oldItem.id == newItem.id
-
-
-            override fun areContentsTheSame(oldItem: Post, newItem: Post) =
-                oldItem == newItem
+    private object DiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post) =
+            oldItem.id == newItem.id
 
 
-        }
+        override fun areContentsTheSame(oldItem: Post, newItem: Post) =
+            oldItem == newItem
+
     }
-
-
+}

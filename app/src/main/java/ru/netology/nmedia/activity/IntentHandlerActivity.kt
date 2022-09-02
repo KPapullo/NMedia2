@@ -16,16 +16,14 @@ class IntentHandlerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val intent = intent ?: return
-        if(intent.action != Intent.ACTION_SEND) return
+        if (intent.action != Intent.ACTION_SEND) return
 
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)
         if (text.isNullOrBlank()) return
 
         Snackbar.make(binding.root, text, Snackbar.LENGTH_INDEFINITE)
-            .setAction(android.R.string.ok) { finish()}
+            .setAction(android.R.string.ok) { finish() }
             .show()
 
-
     }
-
 }
