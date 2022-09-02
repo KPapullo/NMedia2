@@ -13,4 +13,35 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-</resources>
+    
+    <style name="Widget.AppTheme.likeCheckbox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_like_24dp</item>
+        <item name="iconTint">@color/like_checkbox_tint</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:minWidth">@dimen/common_spacing</item>
+
+</style>
+    <style name="Widget.AppTheme.shareCheckbox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_share_24</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:minWidth">@dimen/common_spacing</item>
+
+    </style>
+    <style name="Widget.AppTheme.viewCheckbox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_views_24</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:minWidth">@dimen/common_spacing</item>
+
+    </style>
+
+    <style name="Widget.AppTheme.menu.Checkbox" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_more_vert_24</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:minWidth">@dimen/common_spacing</item>
+
+    </style>
+
+    </resources>
